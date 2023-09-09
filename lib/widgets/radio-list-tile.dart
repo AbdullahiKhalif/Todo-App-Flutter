@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/provider/radio_provider.dart';
 
-class RadioListTileWidget extends StatelessWidget {
+class RadioListTileWidget extends ConsumerWidget {
   const RadioListTileWidget({
     super.key,
     required this.titleRadio,
     required this.catColor,
+    required this.valueText,
+    required this.onChangeRadio,
   });
   final Color catColor;
   final String titleRadio;
+  final int valueText;
+  final VoidCallback onChangeRadio;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final radioCateogryProvider = ref.watch(radioProvider);
     return Material(
       child: Theme(
         data: ThemeData(unselectedWidgetColor: catColor),
         child: RadioListTile(
+          activeColor: catColor,
           contentPadding: EdgeInsets.zero,
           title: Transform.translate(
             offset: Offset(-22, 0),
@@ -26,9 +34,9 @@ class RadioListTileWidget extends StatelessWidget {
               ),
             ),
           ),
-          value: 1,
-          groupValue: 0,
-          onChanged: (value) => {},
+          value: valueText,
+          groupValue: radioCateogryProvider,
+          onChanged: (value) => onChangeRadio(),
         ),
       ),
     );

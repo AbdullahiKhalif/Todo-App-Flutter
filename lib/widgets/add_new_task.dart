@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_style_constants.dart';
+import 'package:todo_app/provider/date_time_provider.dart';
+import 'package:todo_app/provider/radio_provider.dart';
 import 'package:todo_app/widgets/date_time.dart';
 import 'package:todo_app/widgets/radio-list-tile.dart';
 import 'package:todo_app/widgets/text_field.dart';
 
-class AddNewTaskWidget extends StatelessWidget {
+class AddNewTaskWidget extends ConsumerWidget {
   const AddNewTaskWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dateProv = ref.watch(dateProvider);
+    final timeProv = ref.watch(timeProvider);
     return Container(
       padding: const EdgeInsets.all(20.0),
       height: MediaQuery.of(context).size.height * 0.82,
@@ -52,15 +58,33 @@ class AddNewTaskWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: RadioListTileWidget(
-                    titleRadio: 'LERN', catColor: Colors.green.shade500),
+                  titleRadio: 'LERN',
+                  catColor: Colors.green.shade500,
+                  valueText: 1,
+                  onChangeRadio: () => {
+                    ref.watch(radioProvider.notifier).update((state) => 1),
+                  },
+                ),
               ),
               Expanded(
                 child: RadioListTileWidget(
-                    titleRadio: 'WORK', catColor: Colors.blue.shade500),
+                  titleRadio: 'WORK',
+                  catColor: Colors.blue.shade500,
+                  valueText: 2,
+                  onChangeRadio: () => {
+                    ref.watch(radioProvider.notifier).update((state) => 2),
+                  },
+                ),
               ),
               Expanded(
                 child: RadioListTileWidget(
-                    titleRadio: 'GEN', catColor: Colors.amber.shade500),
+                  titleRadio: 'GEN',
+                  catColor: Colors.amber.shade500,
+                  valueText: 3,
+                  onChangeRadio: () => {
+                    ref.read(radioProvider.notifier).update((state) => 3),
+                  },
+                ),
               ),
             ],
           ),
@@ -70,14 +94,42 @@ class AddNewTaskWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DateTimeWidget(
-                  icon: CupertinoIcons.calendar,
-                  titleText: 'Date',
-                  valueText: 'dd/mm/yy'),
+                icon: CupertinoIcons.calendar,
+                titleText: 'Date',
+                valueText: dateProv,
+                onTap: () async {
+                  final getDateSeleted = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2025),
+                  );
+
+                  if (getDateSeleted != null) {
+                    final formatDate = DateFormat.yMd();
+                    ref
+                        .read(dateProvider.notifier)
+                        .update((state) => formatDate.format(getDateSeleted));
+                  }
+                },
+              ),
               Gap(12),
               DateTimeWidget(
                   icon: CupertinoIcons.clock,
                   titleText: 'Time',
-                  valueText: 'hh:mm')
+                  valueText: timeProv,
+                  onTap: () async {
+                    final getTimeSelected = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+
+                    if (getTimeSelected != null) {
+                      ref
+                          .read(timeProvider.notifier)
+                          .update((state) => getTimeSelected.format(context));
+                    }
+                  })
             ],
           ),
 
@@ -97,7 +149,15 @@ class AddNewTaskWidget extends StatelessWidget {
                     side: BorderSide(width: 1.2, color: Colors.blue.shade800),
                     padding: EdgeInsets.symmetric(vertical: 14.0),
                   ),
-                  onPressed: () => {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ref
+                        .read(dateProvider.notifier)
+                        .update((state) => 'dd/mm/yy');
+                    ref
+                        .read(timeProvider.notifier)
+                        .update((state) => 'hh : mm');
+                  },
                   child: Text(
                     'Cencel',
                     style: TextStyle(
@@ -121,7 +181,7 @@ class AddNewTaskWidget extends StatelessWidget {
                   ),
                   onPressed: () => {},
                   child: Text(
-                    'Save',
+                    'Create',
                     style: TextStyle(
                       fontSize: 18.0,
                     ),

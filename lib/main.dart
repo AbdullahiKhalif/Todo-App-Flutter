@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/add_new_task.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
+  runApp(ProviderScope(
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyApp(),
+    ),
   ));
 }
+
+final formatDay = DateFormat.yMEd();
+final getDay = formatDay.format(DateTime.now());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
         title: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.amber.shade400,
-            radius: 25,
+            radius: 22,
             child: Image.asset('assets/profile.png'),
           ),
           title: Text(
@@ -76,6 +83,7 @@ class MyApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Today\'s Task',
@@ -85,9 +93,10 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Saturday, 9/9/ 2023',
+                        '$getDay',
                         style: TextStyle(
                           color: Colors.grey,
+                          fontSize: 14.0,
                         ),
                       )
                     ],
