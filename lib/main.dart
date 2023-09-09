@@ -103,6 +103,7 @@ class MyApp extends StatelessWidget {
                     child: Text('+ New Task'),
                     onPressed: () => {
                       showModalBottomSheet(
+                          isScrollControlled: true,
                           shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(5.0),
