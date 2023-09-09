@@ -15,7 +15,7 @@ class AddNewTaskWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
-      height: MediaQuery.of(context).size.height * 0.80,
+      height: MediaQuery.of(context).size.height * 0.82,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -81,7 +81,55 @@ class AddNewTaskWidget extends StatelessWidget {
             ],
           ),
 
-          //
+          //Task Buttons
+          const Gap(12),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    foregroundColor: Colors.blue.shade800,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    side: BorderSide(width: 1.2, color: Colors.blue.shade800),
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
+                  ),
+                  onPressed: () => {},
+                  child: Text(
+                    'Cencel',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ),
+              Gap(12),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade800,
+                    elevation: 0,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    // side: BorderSide(width: 1.2, color: Colors.blue.shade800),
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
+                  ),
+                  onPressed: () => {},
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
         ],
       ),
     );
