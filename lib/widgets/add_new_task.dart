@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_app/constants/app_style_constants.dart';
+import 'package:todo_app/widgets/text_field.dart';
 
 class AddNewTaskWidget extends StatelessWidget {
   const AddNewTaskWidget({
@@ -33,20 +34,14 @@ class AddNewTaskWidget extends StatelessWidget {
           Gap(12.0),
           const Text('Title Task', style: AppStyle.headingOne),
           Gap(6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            decoration: BoxDecoration(
-              // border: Border.all(width: 1.0, color: Colors.blue),
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.grey.shade300,
-            ),
-            child: const TextField(
-              decoration: InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  hintText: 'Add New Task'),
-            ),
+          TextFieldWidget(hintText: 'Add Task Name', maxLine: 1),
+          Gap(12),
+          const Text(
+            'Description',
+            style: AppStyle.headingOne,
           ),
+          Gap(6),
+          TextFieldWidget(hintText: 'Add Your Description', maxLine: 5),
         ],
       ),
     );
