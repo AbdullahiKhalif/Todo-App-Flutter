@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_app/widgets/add_new_task.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -92,7 +93,6 @@ class MyApp extends StatelessWidget {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFD5E8FA),
                       foregroundColor: Colors.blue.shade800,
@@ -101,6 +101,15 @@ class MyApp extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
                     child: Text('+ New Task'),
+                    onPressed: () => {
+                      showModalBottomSheet(
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(5.0),
+                                  topRight: Radius.circular(5.0))),
+                          context: context,
+                          builder: (context) => AddNewTaskWidget())
+                    },
                   )
                 ],
               )
