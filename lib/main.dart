@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/add_new_task.dart';
+import 'package:todo_app/widgets/card_list.dart';
 
 void main() {
   runApp(ProviderScope(
@@ -122,7 +123,13 @@ class MyApp extends StatelessWidget {
                     },
                   )
                 ],
-              )
+              ),
+              Gap(20),
+              ListView.builder(
+                itemCount: 1,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => CardListWidget(),
+              ),
             ],
           ),
         ),
